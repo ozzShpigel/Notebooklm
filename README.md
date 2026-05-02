@@ -33,35 +33,71 @@ Select book → Identify top 3 chapters → Generate Hebrew podcast → Download
 ## Prerequisites
 
 - Python 3.10+
-- [`notebooklm-py`](https://pypi.org/project/notebooklm-py/) (`pip install notebooklm-py`)
-- Google account with NotebookLM access
+- Google account with [NotebookLM](https://notebooklm.google.com/) access
+
+## Setup
+
+All podcast generation is powered by [`notebooklm-py`](https://github.com/teng-lin/notebooklm-py) — an open-source Python CLI and API for Google NotebookLM. This is **not** a local script in this repo; it is a pip-installable package that provides the `notebooklm` command.
+
+> [!TIP]
+> Full CLI documentation, supported commands, and Python API reference are available at the [notebooklm-py GitHub repository](https://github.com/teng-lin/notebooklm-py).
+
+### Install
 
 ```bash
 pip install notebooklm-py
-notebooklm login
+
+# Optional: browser login support (required for first-time auth)
+pip install "notebooklm-py[browser]"
+playwright install chromium
 ```
 
-## Usage
+### Authenticate
 
 ```bash
-# List notebooks
-PYTHONIOENCODING=utf-8 python -m notebooklm list --json
-
-# Create notebook and add a book
-PYTHONIOENCODING=utf-8 python -m notebooklm create "Book Title" --json
-PYTHONIOENCODING=utf-8 python -m notebooklm source add ./book.epub --json
-
-# Generate Hebrew podcast
-PYTHONIOENCODING=utf-8 python -m notebooklm generate audio \
-  "Focus on the 3 most important chapters..." \
-  --language he --json
-
-# Download when ready
-PYTHONIOENCODING=utf-8 python -m notebooklm download audio ./podcast.mp3
+notebooklm login          # Opens browser for Google OAuth
+notebooklm list           # Verify authentication works
 ```
 
 > [!NOTE]
-> On Windows, the `PYTHONIOENCODING=utf-8` prefix is required to avoid encoding issues with Hebrew output.
+> On Windows, prefix all commands with `PYTHONIOENCODING=utf-8` to avoid encoding issues with Hebrew output. Example: `PYTHONIOENCODING=utf-8 python -m notebooklm list --json`
+
+## Usage
+
+### 1. Create a notebook and add a book
+
+```bash
+python -m notebooklm create "Book Title" --json
+python -m notebooklm source add ./book.epub --json
+```
+
+Supported source types: PDF, EPUB, URLs, YouTube links, Google Docs, audio, video, and images.
+
+### 2. Identify the top chapters
+
+```bash
+python -m notebooklm ask "What are the 3 most important chapters?" --json
+```
+
+### 3. Generate a Hebrew podcast
+
+```bash
+python -m notebooklm generate audio \
+  "Focus on chapters X, Y, and Z..." \
+  --language he --json
+```
+
+Generation takes **10–20 minutes**. Check progress with:
+
+```bash
+python -m notebooklm artifact list --json
+```
+
+### 4. Download the MP3
+
+```bash
+python -m notebooklm download audio ./podcast.mp3
+```
 
 > [!WARNING]
 > Google rate-limits podcast generation. If generation fails, wait 5–10 minutes before retrying.
