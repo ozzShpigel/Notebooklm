@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:standardebooks.org)",
+      "Bash(curl -sL -o /tmp/meditations.epub \"https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long/downloads/marcus-aurelius_meditations_george-long.epub\")",
+      "Read(//tmp/**)",
+      "Bash(curl -sL -o /tmp/meditations.epub --referer \"https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long\" -H \"User-Agent: Mozilla/5.0\" \"https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long/downloads/marcus-aurelius_meditations_george-long.epub\")",
+      "Bash(curl -v -sL -o /tmp/meditations2.epub \"https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long/downloads/marcus-aurelius_meditations_george-long.epub\")",
+      "Bash(curl -sL -o /tmp/meditations.epub \"https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long/downloads/marcus-aurelius_meditations_george-long.epub?source=download\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(notebooklm status:*)",
+      "Bash(pip install:*)",
+      "Bash(notebooklm auth:*)",
+      "Bash(python -m notebooklm auth check)",
+      "Bash(python -m notebooklm_py auth check)",
+      "Bash(PYTHONIOENCODING=utf-8 python:*)",
+      "Bash(where ffmpeg:*)",
+      "Read(//c/ffmpeg/bin/**)",
+      "Read(//c/Program Files/ffmpeg/bin/**)",
+      "Bash(winget install:*)"
+    ]
+  }
+}
